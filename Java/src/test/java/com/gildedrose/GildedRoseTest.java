@@ -98,4 +98,41 @@ class GildedRoseTest {
         assertEquals(0, item.quality);
     }
 
+    /**
+     * Backstage quality sellIn Is more TenDays
+     */
+    @Test
+    void backStagePassesQualityIncreases3TimesIn10DaysMore() {
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 11, 2);
+        GildedRose gildedRose = new GildedRose(new Item[]{item});
+        gildedRose.updateQuality();
+        assertEquals("Backstage passes to a TAFKAL80ETC concert", item.name);
+        assertEquals(10, item.sellIn);
+        assertEquals(3, item.quality);
+    }
+
+    /**
+     * Conjured item decrement quality twice faster than normal
+     */
+    @Test
+    void conjuredItemDecreaseQualityTwiceFaster() {
+        Item item = new Item("Conjured Mana Cake", 10, 30);
+        GildedRose gildedRose = new GildedRose(new Item[]{item});
+        gildedRose.updateQuality();
+        assertEquals(28, item.quality);
+        assertEquals(9, item.sellIn);
+    }
+
+    /**
+     * Conjured item decrease quality twice when expired
+     */
+    @Test
+    void conjuredItemDecreasesQualityWhenExpired() {
+        Item item = new Item("Conjured Mana Cake", -1, 10);
+        GildedRose gildedRose = new GildedRose(new Item[]{item});
+        gildedRose.updateQuality();
+        assertEquals(6, item.quality);
+        assertEquals(-2, item.sellIn);
+    }
+
 }
